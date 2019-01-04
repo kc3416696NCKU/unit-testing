@@ -171,11 +171,11 @@ class ExampleTest extends DuskTestCase
         // });
 
         //使用Page中自行定義的方法
-        $this->browse(function (Browser $browser) {
-                $browser->visit(new Login)
-                        ->createPlaylist('My Playlist')
-                        ->assertSee('My Playlist');//
-        });
+        // $this->browse(function (Browser $browser) {
+        //         $browser->visit(new Login)
+        //                 ->createPlaylist('My Playlist')
+        //                 ->assertSee('My Playlist');//
+        // });
 
         //使用Component中自行定義的方法
         // $this->browse(function (Browser $browser) {
