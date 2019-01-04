@@ -50,4 +50,3 @@ jobs:
 
       - run:
           name: Run Laravel Dusk Tests
-          command: php artisan dusk
