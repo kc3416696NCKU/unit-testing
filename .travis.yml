@@ -16,4 +16,6 @@ before_script:
   - php artisan serve &
 
 script:
+  - php artisan dusk ./tests/Browser/ExampleTest
   - php artisan dusk ./tests/Browser/LoginTest
+  - php artisan dusk ./tests/Browser/ExampleTest
