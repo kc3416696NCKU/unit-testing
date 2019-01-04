@@ -174,7 +174,7 @@ class ExampleTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
                 $browser->visit(new Login)
                         ->createPlaylist('My Playlist')
-                        ->assertSee('My Playlist');
+                        ->assertSee('My Playlist');//
         });
 
         //使用Component中自行定義的方法
