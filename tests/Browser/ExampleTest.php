@@ -159,7 +159,8 @@ class ExampleTest extends DuskTestCase
 
         //使用Page
         $this->browse(function (Browser $browser) {
-            $browser->visit(new Login);
+            $browser->visit(new Login)
+                    ->assertSee('Laravel');
         });
 
         //使用on方法載入Page
