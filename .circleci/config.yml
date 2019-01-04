@@ -36,6 +36,8 @@ jobs:
       # run tests!
       - run: sudo apt-get install -y libsqlite3-dev
       - run: composer install -n --ignore-platform-reqs
+      - run: npm install
+      - run: npm run production
       - run: vendor/bin/phpunit
 
       - run:
@@ -47,3 +49,7 @@ jobs:
           name: Run Laravel Server
           command: php artisan serve
           background: true
+
+      - run:
+          name: Run Laravel Dusk Tests
+          command: php artisan dusk
