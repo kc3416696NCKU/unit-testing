@@ -158,9 +158,9 @@ class ExampleTest extends DuskTestCase
         // });
 
         //使用Page
-        // $this->browse(function (Browser $browser) {
-        //     $browser->visit(new Login);
-        // });
+        $this->browse(function (Browser $browser) {
+            $browser->visit(new Login);
+        });
 
         //使用on方法載入Page
         // $this->browse(function (Browser $browser) {
