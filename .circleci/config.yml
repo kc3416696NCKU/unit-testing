@@ -35,21 +35,21 @@ jobs:
 
       # run tests!
       - run: sudo apt-get install -y libsqlite3-dev
-            - run: composer install -n --ignore-platform-reqs
-            - run: npm install
-            - run: npm run production
-            - run: vendor/bin/phpunit
+      - run: composer install -n --ignore-platform-reqs
+      - run: npm install
+      - run: npm run production
+      - run: vendor/bin/phpunit
 
-            - run:
-               name: Start Chrome Driver
-               command: ./vendor/laravel/dusk/bin/chromedriver-linux
-               background: true
+      - run:
+          name: Start Chrome Driver
+          command: ./vendor/laravel/dusk/bin/chromedriver-linux
+          background: true
 
-            - run:
-               name: Run Laravel Server
-               command: php artisan serve
-               background: true
+      - run:
+          name: Run Laravel Server
+          command: php artisan serve
+          background: true
 
-            - run:
-               name: Run Laravel Dusk Tests
-               command: php artisan dusk
+      - run:
+          name: Run Laravel Dusk Tests
+          command: php artisan dusk
