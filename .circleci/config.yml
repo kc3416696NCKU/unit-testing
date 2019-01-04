@@ -46,4 +46,3 @@ jobs:
       - run:
           name: Run Laravel Server
           command: php artisan serve
-          background: true
