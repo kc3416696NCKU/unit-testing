@@ -1,0 +1,33 @@
+version: 2
+jobs:
+  build:
+    docker:
+    - image: circleci/php:7.1-browsers
+    working_directory: ~/repo
+    steps:
+    - checkout
+    - restore_cache:
+        keys:
+        - v1-dependencies-{{ checksum "composer.json" }}
+        - v1-dependencies-
+    - run: composer install -n --prefer-dist
+    - save_cache:
+        paths:
+        - ./vendor
+        key: v1-dependencies-{{ checksum "composer.json" }}
+    - run: sudo apt-get install -y libsqlite3-dev
+    - run: composer install -n --ignore-platform-reqs
+    - run: npm install
+    - run: npm run production
+    - run: vendor/bin/phpunit
+    - run:
+        name: Start Chrome Driver
+        command: ./vendor/laravel/dusk/bin/chromedriver-linux
+        background: true
+    - run:
+        name: Run Laravel Server
+        command: php artisan serve
+        background: true
+    - run:
+        name: Run Laravel Dusk Tests
+        command: php artisan dusk
