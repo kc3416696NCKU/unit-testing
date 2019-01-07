@@ -16,6 +16,4 @@ RUN curl -sS https://getcomposer.org/installer | php \
 COPY . /app
 WORKDIR /app
 
-RUN composer install --prefer-source --no-interaction
-
 ENV PATH="~/.composer/vendor/bin:./vendor/bin:${PATH}"
