@@ -164,12 +164,12 @@ class ExampleTest extends DuskTestCase
         });
 
         //使用on方法載入Page
-        // $this->browse(function (Browser $browser) {
-        //     $browser->visit('/')
-        //     ->clickLink('Home')
-        //     ->on(new Login)
-        //     ->assertSee('Message');
-        // });
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/')
+            ->clickLink('Home')
+            ->on(new Login)
+            ->assertSee('Message');
+        });
 
         //使用Page中自行定義的方法
         // $this->browse(function (Browser $browser) {
