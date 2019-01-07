@@ -26,3 +26,6 @@ jobs:
         name: Run Laravel Server
         command: php artisan serve
         background: true
+    - run:
+        name: Run Laravel Dusk Tests
+        command: php artisan dusk
