@@ -1,3 +1,10 @@
 - name: tests
   service: web-codeship-example-php
-  command: phpunit
+  command:
+    phpenv local 7.1.10
+    cp .env.testing .env
+    mkdir -p ./bootstrap/cache
+    composer install --no-interaction --prefer-dist
+    php artisan key:generate
+    nohup bash -c "php artisan serve 2>&1 &" && sleep 5
+    php artisan dusk
