@@ -1,5 +1,5 @@
 # Set the base image for subsequent instructions
-FROM php:7.1
+FROM php:7.1.10
 
 # Update packages
 RUN apt-get update
