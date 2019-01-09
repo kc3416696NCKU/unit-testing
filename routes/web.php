@@ -18,3 +18,5 @@ Route::get('/', function () {
 Route::get('/GetDataGet/{data}', 'GetDataController@index');
 
 Route::post('/GetDataPOST', 'GetDataController@create');
+
+Route::get('/users', 'UserController@testGetIndex');

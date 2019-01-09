@@ -22,3 +22,30 @@ $factory->define(App\User::class, function (Faker $faker) {
         'remember_token' => str_random(10),
     ];
 });
+
+//定義state
+$factory->state(App\User::class, 'delinquent', [
+    'account_status' => 'delinquent',
+]);
+
+//定義回傳呼叫
+// $factory->afterMaking(App\User::class, function ($user, $faker) {
+//     // ...
+// });
+
+// $factory->afterCreating(App\User::class, function ($user, $faker) {
+//     $user->accounts()->save(factory(App\Account::class)->make());
+// });
+
+// $factory->define(App\Post::class, function ($faker) {
+//     return [
+//         'title' => $faker->title,
+//         'content' => $faker->paragraph,
+//         'user_id' => function () {
+//             return factory(App\User::class)->create()->id;  //關聯 model
+//         },
+//         'user_type' => function (array $post) {
+//             return App\User::find($post['user_id'])->type;
+//         }
+//     ];
+// });
