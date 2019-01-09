@@ -1,4 +1,4 @@
-image: registry.gitlab.com/kc3416696ncku/unit-testing
+image: registry.gitlab.com/kc3416696ncku/unit-testing:latest
 
 services:
   - mysql:5.7
