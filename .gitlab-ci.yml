@@ -40,9 +40,9 @@ release-image:
   only:
     - master
 
-deploy:
-  stage: deploy
-  script:
-    - ./deploy.sh > /dev/null
-  only:
-    - master
+# deploy:
+#   stage: deploy
+#   script:
+#     - ./deploy.sh
+#   only:
+#     - master
