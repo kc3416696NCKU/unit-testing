@@ -15,7 +15,9 @@ RUN apt-get clean
 RUN docker-php-ext-install mcrypt pdo_mysql zip
 
 # Install Composer
-RUN curl --silent --show-error https://getcomposer.org/installer | php -- --install-dir=/usr/bin/sh --filename=composer
+RUN curl --silent --show-error https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+RUN cd /usr/bin/composer
 
 # Install Laravel Envoy
 RUN composer global require "laravel/envoy=~1.0"
