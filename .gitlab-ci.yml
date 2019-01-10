@@ -23,8 +23,12 @@ build:
 
 test1:
   stage: test
+  before_script:
+    - php artisan serve
   script:
     - docker run $CONTAINER_TEST_IMAGE
+    - php artisan dusk
+
   cache:
     untracked: true
   artifacts:
