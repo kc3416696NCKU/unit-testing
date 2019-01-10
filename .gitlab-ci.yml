@@ -1,52 +1,48 @@
-build_image:
-  image: docker:git
-  services:
-  - docker:dind
+image: docker:git
+services:
+- docker:dind
+
+stages:
+- build
+- test
+- release
+- deploy
+
+variables:
+  CONTAINER_TEST_IMAGE: registry.gitlab.com/kc3416696ncku/unit-testing:$CI_BUILD_REF_NAME
+  CONTAINER_RELEASE_IMAGE: registry.gitlab.com/kc3416696ncku/unit-testing:latest
+
+before_script:
+  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
+
+build:
+  stage: build
   script:
-    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
-    - docker build -t registry.gitlab.com/kc3416696ncku/unit-testing .
-    - docker run registry.gitlab.com/kc3416696ncku/unit-testing /script/to/run/tests
-    - docker push registry.gitlab.com/kc3416696ncku/unit-testing:latest
+    - docker build -t $CONTAINER_TEST_IMAGE .
+    - docker push $CONTAINER_TEST_IMAGE
+
+test1:
+  stage: test
+  script:
+    - docker run $CONTAINER_TEST_IMAGE /script/to/run/tests
+
+test2:
+  stage: test
+  script:
+    - docker run $CONTAINER_TEST_IMAGE /script/to/run/another/test
+
+release-image:
+  stage: release
+  script:
+    - docker pull $CONTAINER_TEST_IMAGE
+    - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
+    - docker push $CONTAINER_RELEASE_IMAGE
   only:
     - master
 
-image: registry.gitlab.com/kc3416696ncku/unit-testing:latest
-
-services:
-  - mysql:5.7
-
-variables:
-  MYSQL_DATABASE: homestead
-  MYSQL_ROOT_PASSWORD: secret
-  DB_HOST: mysql
-  DB_USERNAME: root
-
-stages:
-  - test
-  - deploy
-
-unit_test:
-  stage: test
-  script:
-    - cp .env.example .env
-    - composer install
-    - php artisan key:generate
-    - php artisan migrate
-    - vendor/bin/phpunit
-
-deploy_production:
+deploy:
   stage: deploy
   script:
-    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
-    - eval $(ssh-agent -s)
-    - ssh-add <(echo "$SSH_PRIVATE_KEY")
-    - mkdir -p ~/.ssh
-    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-
-    - ~/.composer/vendor/bin/envoy run deploy --commit="$CI_COMMIT_SHA"
-  environment:
-    name: production
-    url: http://192.168.1.1
-  when: manual
+    - ./deploy.sh
   only:
     - master
