@@ -29,8 +29,7 @@ test1:
     untracked: true
   artifacts:
     paths:
-      - apk update && apk add openssh
-      - vendor/
+      - vendor
 
 release-image:
   stage: release
@@ -44,7 +43,6 @@ release-image:
 deploy:
   stage: deploy
   script:
-    - apk update && apk add openssh
-    - ./deploy.sh
+    - ./deploy.sh > /dev/null
   only:
     - master
