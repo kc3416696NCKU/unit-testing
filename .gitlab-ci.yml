@@ -13,7 +13,7 @@ variables:
 
 before_script:
   - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
-registry.gitlab.com/kc3416696ncku/unit-testing
+
 build:
   stage: build
   script:
