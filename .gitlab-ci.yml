@@ -23,7 +23,7 @@ before_script:
 test1:
   stage: test
   script:
-    - docker run $CONTAINER_TEST_IMAGE /bin/bash
+    - docker run -it $CONTAINER_TEST_IMAGE /bin/bash
     - composer install
     # - cp .env.testing .env
     # - docker ps
