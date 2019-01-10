@@ -25,7 +25,7 @@ test1:
   script:
     - docker run $CONTAINER_TEST_IMAGE
     - cp .env.testing .env
-    - docker ps
+    - docker ps.
 
   cache:
     untracked: true
