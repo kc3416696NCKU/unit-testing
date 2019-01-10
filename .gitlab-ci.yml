@@ -24,7 +24,12 @@ build:
 test1:
   stage: test
   script:
-    - docker run $CONTAINER_TEST_IMAGE /script/to/run/tests
+    - cp .env.example .env
+    - composer install
+    - php artisan key:generate
+    - php artisan migrate
+    - vendor/bin/phpunit
+
 
 test2:
   stage: test
