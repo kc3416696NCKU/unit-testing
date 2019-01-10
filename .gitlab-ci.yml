@@ -23,6 +23,8 @@ variables:
 test1:
   stage: test
   image: $CONTAINER_TEST_IMAGE
+  before_script:
+    - php artisan serve
   script:
     - composer install
     - php artisan dusk
@@ -35,14 +37,14 @@ test1:
     paths:
       - vendor
 
-release-image:
-  stage: release
-  script:
-    - docker pull $CONTAINER_TEST_IMAGE
-    - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
-    - docker push $CONTAINER_RELEASE_IMAGE
-  only:
-    - master
+# release-image:
+#   stage: release
+#   script:
+#     - docker pull $CONTAINER_TEST_IMAGE
+#     - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
+#     - docker push $CONTAINER_RELEASE_IMAGE
+#   only:
+#     - master
 
 # deploy:
 #   stage: deploy
