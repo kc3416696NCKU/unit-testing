@@ -20,12 +20,13 @@ build:
   script:
     - docker build -t $CONTAINER_TEST_IMAGE .
     - docker push $CONTAINER_TEST_IMAGE
+    - docker run $CONTAINER_TEST_IMAGE
+    - composer install
 
 test1:
   stage: test
   script:
     - docker run $CONTAINER_TEST_IMAGE
-    - cp .env.example .env
     - composer install
 
   cache:
