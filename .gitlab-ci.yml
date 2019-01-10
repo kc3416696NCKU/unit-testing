@@ -25,6 +25,7 @@ test1:
   image: $CONTAINER_TEST_IMAGE
   script:
     - composer install
+    - php artisan dusk
     # - cp .env.testing .env
     # - docker ps
 
