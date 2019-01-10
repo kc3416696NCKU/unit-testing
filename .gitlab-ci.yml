@@ -24,7 +24,7 @@ test1:
   stage: test
   image: $CONTAINER_TEST_IMAGE
   before_script:
-    - php artisan serve
+    - php artisan serve &
   script:
     - composer install
     - cp .env.testing .env
