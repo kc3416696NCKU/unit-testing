@@ -3,7 +3,6 @@ services:
 - docker:dind
 
 stages:
-- build
 - test
 - release
 - deploy
@@ -14,19 +13,18 @@ variables:
 
 before_script:
   - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
-
+registry.gitlab.com/kc3416696ncku/unit-testing
 build:
   stage: build
   script:
     - docker build -t $CONTAINER_TEST_IMAGE .
     - docker push $CONTAINER_TEST_IMAGE
-    - docker run $CONTAINER_TEST_IMAGE
-    - composer install
 
 test1:
   stage: test
   script:
     - docker run $CONTAINER_TEST_IMAGE
+    - cp .env.example .env
     - composer install
 
   cache:
