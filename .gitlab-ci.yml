@@ -1,53 +1,31 @@
-image: docker:git
-services:
-- docker:dind
+image: mileschou/php-testing-base:7.0
 
 stages:
-- build
-- test
-- release
-- deploy
+  - build
+  - test
+  - deploy
 
-variables:
-  CONTAINER_TEST_IMAGE: registry.gitlab.com/kc3416696ncku/unit-testing:$CI_BUILD_REF_NAME
-  CONTAINER_RELEASE_IMAGE: registry.gitlab.com/kc3416696ncku/unit-testing:latest
-
-before_script:
-  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
-
-build:
+build_job:
   stage: build
   script:
-    - docker build -t $CONTAINER_TEST_IMAGE .
-    - docker push $CONTAINER_TEST_IMAGE
-
-test1:
-  stage: test
-  script:
-    - cp .env.example .env
     - composer install
-    - php artisan key:generate
-    - php artisan migrate
-    - vendor/bin/phpunit
+  cache:
+    untracked: true
+  artifacts:
+    paths:
+      - vendor/
 
-
-test2:
+test_job:
   stage: test
   script:
-    - docker run $CONTAINER_TEST_IMAGE /script/to/run/another/test
+    - php vendor/bin/codecept run
+  dependencies:
+    - build_job
 
-release-image:
-  stage: release
-  script:
-    - docker pull $CONTAINER_TEST_IMAGE
-    - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
-    - docker push $CONTAINER_RELEASE_IMAGE
-  only:
-    - master
-
-deploy:
+deploy_job:
   stage: deploy
   script:
-    - ./deploy.sh
+    - echo Deploy OK
   only:
-    - master
+    - release
+  when: manual
