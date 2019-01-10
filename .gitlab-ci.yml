@@ -23,11 +23,10 @@ build:
 
 test1:
   stage: test
-  before_script:
-    - php artisan serve
   script:
     - docker run $CONTAINER_TEST_IMAGE
-    - php artisan dusk
+    - cp .env.example .env
+    - composer install
 
   cache:
     untracked: true
