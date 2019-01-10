@@ -27,8 +27,8 @@ test1:
     - php artisan serve
   script:
     - composer install
+    - cp .env.testing .env
     - php artisan dusk
-    # - cp .env.testing .env
     # - docker ps
 
   cache:
