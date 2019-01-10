@@ -13,7 +13,7 @@ variables:
   CONTAINER_RELEASE_IMAGE: registry.gitlab.com/kc3416696ncku/unit-testing:latest
 
 before_script:
-  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
+  - docker login -u kc3416696ncku -p 321 registry.gitlab.com
 
 build:
   stage: build
