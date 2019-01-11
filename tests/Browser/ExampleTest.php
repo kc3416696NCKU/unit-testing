@@ -158,17 +158,21 @@ class ExampleTest extends DuskTestCase
         // });
 
         //使用Page
-        $this->browse(function (Browser $browser) {
-            $browser->visit(new Login)
-                    ->assertSee('Laravel');
-        });
+        // $this->browse(function (Browser $browser) {
+        //     $browser->visit(new Login)
+        //             ->assertSee('Laravel');
+        // });
 
-        //使用on方法載入Page
+        // //使用on方法載入Page
+        // $this->browse(function (Browser $browser) {
+        //     $browser->visit('/')
+        //     ->clickLink('Home')
+        //     ->on(new Login)
+        //     ->assertSee('Message');
+        // });
         $this->browse(function (Browser $browser) {
             $browser->visit('/')
-            ->clickLink('Home')
-            ->on(new Login)
-            ->assertSee('Message');
+                    ->assertSee('Laravel');
         });
 
         //使用Page中自行定義的方法
