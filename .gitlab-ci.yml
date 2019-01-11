@@ -14,6 +14,7 @@ stages:
 
 unit_test:
   stage: test
+  image: chilio/laravel-dusk-ci:stable
   script:
     - cp .env.example .env
     - composer install --no-interaction --prefer-dist --no-suggest
@@ -22,7 +23,7 @@ unit_test:
     # - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
 
     # - php artisan serve &
-    - php chromedriver &
+    # - php chromedriver &
     - php artisan dusk
     # - vendor/bin/phpunit
 
