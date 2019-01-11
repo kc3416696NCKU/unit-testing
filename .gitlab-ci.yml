@@ -1,5 +1,4 @@
 image: registry.gitlab.com/kc3416696ncku/unit-testing:master
-
 services:
   - mysql:5.7
 
@@ -20,7 +19,9 @@ unit_test:
     - composer install
     - php artisan key:generate
     - php artisan migrate
-    - vendor/bin/phpunit
+    - php artisan serve &
+    - php artisan dusk
+    # - vendor/bin/phpunit
 
 deploy_production:
   stage: deploy
@@ -38,3 +39,68 @@ deploy_production:
   when: manual
   only:
     - master
+
+
+
+
+
+
+
+
+
+
+# # services:
+# # - docker:dind
+
+# stages:
+# - build
+# - test
+# - release
+# - deploy
+
+# # variables:
+# #   CONTAINER_TEST_IMAGE: registry.gitlab.com/kc3416696ncku/unit-testing:$CI_BUILD_REF_NAME
+#   # CONTAINER_RELEASE_IMAGE: registry.gitlab.com/kc3416696ncku/unit-testing:latest
+
+# # before_script:
+# #   - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
+
+# # build:
+# #   stage: build
+# #   script:
+# #     - docker build -t $CONTAINER_TEST_IMAGE .
+# #     - docker push $CONTAINER_TEST_IMAGE
+
+# test1:
+#   stage: test
+#   # image: $CONTAINER_TEST_IMAGE
+#   before_script:
+#     - cp .env.testing .env
+#     # - composer install --no-interaction --prefer-dist --no-suggest
+#     # - php artisan key:generate
+#     # - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
+#     # - php artisan serve &
+#   script:
+#     # - php artisan dusk
+#     - vendor/bin/phpunit tests/Feature/Usertest
+#   cache:
+#     untracked: true
+#   artifacts:
+#     paths:
+#       - vendor
+
+# # release-image:
+# #   stage: release
+# #   script:
+# #     - docker pull $CONTAINER_TEST_IMAGE
+# #     - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
+# #     - docker push $CONTAINER_RELEASE_IMAGE
+# #   only:
+# #     - master
+
+# # deploy:
+# #   stage: deploy
+# #   script:
+# #     - ./deploy.sh
+# #   only:
+# #     - master
