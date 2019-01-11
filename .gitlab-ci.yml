@@ -10,7 +10,7 @@ stages:
 
 variables:
   CONTAINER_TEST_IMAGE: registry.gitlab.com/kc3416696ncku/unit-testing:$CI_BUILD_REF_NAME
-  CONTAINER_RELEASE_IMAGE: registry.gitlab.com/kc3416696ncku/unit-testing:latest
+  # CONTAINER_RELEASE_IMAGE: registry.gitlab.com/kc3416696ncku/unit-testing:latest
 
 # before_script:
 #   - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
@@ -23,7 +23,7 @@ variables:
 
 test1:
   stage: test
-  image: $CONTAINER_TEST_IMAGE
+  image: unit-testing
   before_script:
     - cp .env.testing .env
     # - composer install --no-interaction --prefer-dist --no-suggest
