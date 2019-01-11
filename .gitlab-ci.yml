@@ -17,14 +17,21 @@ unit_test:
   image: chilio/laravel-dusk-ci:stable
   script:
     - cp .env.example .env
-    - composer install --no-interaction --prefer-dist --no-suggest
-    - php artisan key:generate
-    - php artisan migrate
+    # - cp phpunit.xml.ci phpunit.xml # if you are using custom config for your phpunit tests in CI
+    - configure-laravel
+    - start-nginx-ci-project
+    - ./vendor/phpunit/phpunit/phpunit -v --coverage-text --colors --stderr
+    # - phpunit -v --coverage-text --colors --stderr # if you want to use preinstalled phpunit
+    - php artisan dusk --colors --debug
+    # - cp .env.example .env
+    # - composer install --no-interaction --prefer-dist --no-suggest
+    # - php artisan key:generate
+    # - php artisan migrate
     # - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
 
     # - php artisan serve &
-    # - php chromedriver &
-    - php artisan dusk
+
+    # - php artisan dusk
     # - vendor/bin/phpunit
 
 deploy_production:
