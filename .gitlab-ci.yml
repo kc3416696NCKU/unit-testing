@@ -84,7 +84,7 @@ unit_test:
     - ./vendor/bin/phpunit -v --coverage-text --colors --stderr
 
     - php artisan serve &
-    - php artisan dusk ./tests/Browser/
+    - php artisan dusk ./tests/Browser/ --colors --debug
 
   only:
     - master
