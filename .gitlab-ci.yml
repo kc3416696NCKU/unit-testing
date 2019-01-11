@@ -23,7 +23,7 @@ unit_test:
     - start-nginx-ci-project
     - ./vendor/bin/phpunit -v --coverage-text --colors --stderr
     # - phpunit -v --coverage-text --colors --stderr # if you want to use preinstalled phpunit
-    - php artisan dusk --colors --debug
+    - php artisan dusk --colors --debug --headless
     # - cp .env.example .env
     # - composer install --no-interaction --prefer-dist --no-suggest
     # - php artisan key:generate
