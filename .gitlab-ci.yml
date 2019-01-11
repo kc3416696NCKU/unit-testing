@@ -16,9 +16,10 @@ unit_test:
   stage: test
   script:
     - cp .env.example .env
-    - composer install
+    - composer install --no-interaction --prefer-dist --no-suggest
     - php artisan key:generate
     - php artisan migrate
+    - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
     - php artisan serve &
     - php artisan dusk
     # - vendor/bin/phpunit
