@@ -70,8 +70,8 @@
 
 
 
-# image: registry.gitlab.com/kc3416696ncku/unit-testing:master
-image: chilio/laravel-dusk-ci:stable
+image: registry.gitlab.com/kc3416696ncku/unit-testing:master
+# image: chilio/laravel-dusk-ci:stable
 
 stages:
   - test
@@ -80,11 +80,11 @@ unit_test:
   stage: test
   script:
     - cp .env.testing .env
-    - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
+    - composer install
     - ./vendor/bin/phpunit -v --coverage-text --colors --stderr
 
     - php artisan serve &
-    - php artisan dusk
+    - php artisan dusk ./tests/Browser/
 
   only:
     - master
