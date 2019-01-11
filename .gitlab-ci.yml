@@ -24,8 +24,6 @@ variables:
 test1:
   stage: test
   image: $CONTAINER_TEST_IMAGE
-  addons:
-  chrome: stable
   before_script:
     - cp .env.testing .env
     - composer install --no-interaction --prefer-dist --no-suggest
