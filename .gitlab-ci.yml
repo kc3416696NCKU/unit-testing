@@ -26,13 +26,13 @@ test1:
   image: $CONTAINER_TEST_IMAGE
   before_script:
     - cp .env.testing .env
-    - composer install --no-interaction --prefer-dist --no-suggest
-    - php artisan key:generate
-    - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
-    - php artisan serve &
+    # - composer install --no-interaction --prefer-dist --no-suggest
+    # - php artisan key:generate
+    # - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
+    # - php artisan serve &
   script:
     # - php artisan dusk
-    - vendor/bin/phpunit
+    - vendor/bin/phpunit tests/Feature/
   cache:
     untracked: true
   artifacts:
