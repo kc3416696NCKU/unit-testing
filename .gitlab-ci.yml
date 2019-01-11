@@ -1,4 +1,4 @@
-image: docker:git
+image: registry.gitlab.com/kc3416696ncku/unit-testing:$CI_BUILD_REF_NAME
 # services:
 # - docker:dind
 
@@ -8,8 +8,8 @@ stages:
 - release
 - deploy
 
-variables:
-  CONTAINER_TEST_IMAGE: registry.gitlab.com/kc3416696ncku/unit-testing:$CI_BUILD_REF_NAME
+# variables:
+#   CONTAINER_TEST_IMAGE: registry.gitlab.com/kc3416696ncku/unit-testing:$CI_BUILD_REF_NAME
   # CONTAINER_RELEASE_IMAGE: registry.gitlab.com/kc3416696ncku/unit-testing:latest
 
 # before_script:
@@ -23,7 +23,7 @@ variables:
 
 test1:
   stage: test
-  image: unit-testing
+  # image: $CONTAINER_TEST_IMAGE
   before_script:
     - cp .env.testing .env
     # - composer install --no-interaction --prefer-dist --no-suggest
