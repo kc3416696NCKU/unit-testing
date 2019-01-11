@@ -47,7 +47,7 @@ test:
 
   image: chilio/laravel-dusk-ci:stable
   script:
-    - cp .env.example .env
+    - cp .env.testing .env
     # - cp phpunit.xml.ci phpunit.xml # if you are using custom config for your phpunit tests in CI
     - configure-laravel
     - start-nginx-ci-project
