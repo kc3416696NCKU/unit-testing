@@ -1,4 +1,4 @@
-image: registry.gitlab.com/kc3416696ncku/unit-testing:php-testing-base:7.1.10
+image: registry.gitlab.com/kc3416696ncku/unit-testing:master
 # services:
 # - docker:dind
 
