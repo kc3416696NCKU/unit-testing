@@ -24,14 +24,6 @@ test1:
   stage: test
   image: $CONTAINER_TEST_IMAGE
   before_script:
-    - CHROME_DRIVER_VERSION=`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE`
-
-    - wget -N h-ttp://chromedriver.storage.googleapis.com/$CHROME_DRIVER_VERSION/chromedriver_linux64.zip -P ~/
-    - unzip ~/chromedriver_linux64.zip -d ~/
-    - rm ~/chromedriver_linux64.zip
-    - sudo mv -f ~/chromedriver /usr/local/bin/chromedriver
-    - sudo chown root:root /usr/local/bin/chromedriver
-    - sudo chmod 0755 /usr/local/bin/chromedriver
     - cp .env.testing .env
     - composer install --no-interaction --prefer-dist --no-suggest
     - php artisan key:generate

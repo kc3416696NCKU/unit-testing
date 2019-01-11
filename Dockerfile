@@ -19,3 +19,10 @@ RUN curl --silent --show-error https://getcomposer.org/installer | php -- --inst
 
 # Install Laravel Envoy
 RUN composer global require "laravel/envoy=~1.0"
+RUN CHROME_DRIVER_VERSION=`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE`
+RUN wget -N h-ttp://chromedriver.storage.googleapis.com/$CHROME_DRIVER_VERSION/chromedriver_linux64.zip -P ~/
+RUN unzip ~/chromedriver_linux64.zip -d ~/
+RUN rm ~/chromedriver_linux64.zip
+RUN sudo mv -f ~/chromedriver /usr/local/bin/chromedriver
+RUN sudo chown root:root /usr/local/bin/chromedriver
+RUN sudo chmod 0755 /usr/local/bin/chromedriver
