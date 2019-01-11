@@ -70,8 +70,8 @@
 
 
 
-image: registry.gitlab.com/kc3416696ncku/unit-testing:master
-# image: chilio/laravel-dusk-ci:stable
+# image: registry.gitlab.com/kc3416696ncku/unit-testing:master
+image: chilio/laravel-dusk-ci:stable
 
 stages:
   - test
