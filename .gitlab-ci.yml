@@ -27,9 +27,8 @@ test1:
     - cp .env.testing .env
     - composer install --no-interaction --prefer-dist --no-suggest
     - php artisan key:generate
-    - php artisan serve &
   script:
-    - php artisan dusk
+    - php artisan serve & php artisan dusk
   cache:
     untracked: true
   artifacts:
