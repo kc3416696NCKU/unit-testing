@@ -14,14 +14,15 @@ stages:
 
 unit_test:
   stage: test
-  image: registry.gitlab.com/kc3416696ncku/unit-testing:stable
   script:
     - cp .env.example .env
     - composer install --no-interaction --prefer-dist --no-suggest
     - php artisan key:generate
     - php artisan migrate
-    - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
-    - php artisan serve &
+    # - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
+
+    # - php artisan serve &
+    - php chromedriver &
     - php artisan dusk
     # - vendor/bin/phpunit
 
