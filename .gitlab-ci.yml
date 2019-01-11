@@ -32,7 +32,7 @@ test1:
     # - php artisan serve &
   script:
     # - php artisan dusk
-    - vendor/bin/phpunit tests/Feature/
+    - vendor/bin/phpunit tests/Feature/Usertest
   cache:
     untracked: true
   artifacts:
