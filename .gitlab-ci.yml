@@ -71,31 +71,20 @@
 
 
 # image: registry.gitlab.com/kc3416696ncku/unit-testing:master
-services:
-  - mysql:5.7
-
-variables:
-  MYSQL_DATABASE: homestead
-  MYSQL_ROOT_PASSWORD: secret
-  DB_HOST: mysql
-  DB_USERNAME: root
+image: chilio/laravel-dusk-ci:stable
 
 stages:
   - test
-  - deploy
 
 unit_test:
   stage: test
-  image: chilio/laravel-dusk-ci:stable
   script:
     - cp .env.testing .env
     - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
-    # - configure-laravel
-    - start-nginx-ci-project
     - ./vendor/bin/phpunit -v --coverage-text --colors --stderr
 
     - php artisan serve &
-    - php artisan dusk --colors --debug
+    - php artisan dusk
 
   only:
     - master
