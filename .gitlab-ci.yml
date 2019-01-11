@@ -1,128 +1,128 @@
-stages:
-  - build
-  - test
+# stages:
+#   - build
+#   - test
 
-# Variables
+# # Variables
+# variables:
+#   MYSQL_ROOT_PASSWORD: root
+#   MYSQL_USER: homestead
+#   MYSQL_PASSWORD: secret
+#   MYSQL_DATABASE: homestead
+#   DB_HOST: mysql-test
+#   DB_CONNECTION: mysql
+
+# build:
+#   stage: build
+#   services:
+#      - name: mysql:5.7
+#        alias: mysql-test # this config is for more robust boilerplate. You may need to change it, if this mysql-test db-host is used on your system (remember to modify DB_HOST and other mysql services also)
+
+#   image: chilio/laravel-dusk-ci:stable
+#   script:
+#     - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
+#     # - npm install # if you need to install additional modules from your projects package.json
+#     # - npm run dev # if you need to run dev scripts for example laravel mix
+#   cache:
+#       key: ${CI_BUILD_REF_NAME}
+#       paths:
+#         # these are only examples, you should modify them according to your project,
+#         # or remove cache routines entirely, if they are causing any problems on your next builds..
+#         # below are 2 safe ones if you use composer install and npm install in your stage script
+#         - vendor
+#         - node_modules
+#          # - /resources/assets/vendors  # for example if you put your vendor node-libraries there
+
+# test:
+#   stage: test
+#   cache:
+#     key: ${CI_BUILD_REF_NAME}
+#     paths:
+#       - vendor
+#       - node_modules
+#     policy: pull
+
+#   services:
+#     - name: mysql:5.7
+#       alias: mysql-test
+
+#   image: chilio/laravel-dusk-ci:stable
+#   script:
+#     - cp .env.testing .env
+#     # - cp phpunit.xml.ci phpunit.xml # if you are using custom config for your phpunit tests in CI
+#     - configure-laravel
+#     - start-nginx-ci-project
+#     - ./vendor/phpunit/phpunit/phpunit -v --coverage-text --colors --stderr
+#     # - phpunit -v --coverage-text --colors --stderr # if you want to use preinstalled phpunit
+#     - php artisan dusk --colors --debug
+
+#   artifacts:
+#     paths:
+#       - ./storage/logs # for debugging
+#       - ./tests/Browser/screenshots
+#       - ./tests/Browser/console
+#     expire_in: 7 days
+#     when: always
+
+
+
+
+
+
+
+
+image: registry.gitlab.com/kc3416696ncku/unit-testing:master
+services:
+  - mysql:5.7
+
 variables:
-  MYSQL_ROOT_PASSWORD: root
-  MYSQL_USER: homestead
-  MYSQL_PASSWORD: secret
   MYSQL_DATABASE: homestead
-  DB_HOST: mysql-test
-  DB_CONNECTION: mysql
+  MYSQL_ROOT_PASSWORD: secret
+  DB_HOST: mysql
+  DB_USERNAME: root
 
-build:
-  stage: build
-  services:
-     - name: mysql:5.7
-       alias: mysql-test # this config is for more robust boilerplate. You may need to change it, if this mysql-test db-host is used on your system (remember to modify DB_HOST and other mysql services also)
+stages:
+  - test
+  - deploy
 
-  image: chilio/laravel-dusk-ci:stable
-  script:
-    - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
-    # - npm install # if you need to install additional modules from your projects package.json
-    # - npm run dev # if you need to run dev scripts for example laravel mix
-  cache:
-      key: ${CI_BUILD_REF_NAME}
-      paths:
-        # these are only examples, you should modify them according to your project,
-        # or remove cache routines entirely, if they are causing any problems on your next builds..
-        # below are 2 safe ones if you use composer install and npm install in your stage script
-        - vendor
-        - node_modules
-         # - /resources/assets/vendors  # for example if you put your vendor node-libraries there
-
-test:
+unit_test:
   stage: test
-  cache:
-    key: ${CI_BUILD_REF_NAME}
-    paths:
-      - vendor
-      - node_modules
-    policy: pull
-
-  services:
-    - name: mysql:5.7
-      alias: mysql-test
-
   image: chilio/laravel-dusk-ci:stable
   script:
     - cp .env.testing .env
-    # - cp phpunit.xml.ci phpunit.xml # if you are using custom config for your phpunit tests in CI
+    - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
     - configure-laravel
     - start-nginx-ci-project
-    - ./vendor/phpunit/phpunit/phpunit -v --coverage-text --colors --stderr
-    # - phpunit -v --coverage-text --colors --stderr # if you want to use preinstalled phpunit
+    - ./vendor/bin/phpunit -v --coverage-text --colors --stderr
+
+    - php artisan serve &
     - php artisan dusk --colors --debug
+    # - cp .env.example .env
+    # - composer install --no-interaction --prefer-dist --no-suggest
+    # - php artisan key:generate
+    # - php artisan migrate
+    # - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
 
-  artifacts:
-    paths:
-      - ./storage/logs # for debugging
-      - ./tests/Browser/screenshots
-      - ./tests/Browser/console
-    expire_in: 7 days
-    when: always
+    # - php artisan serve &
 
+    # - php artisan dusk
+    # - vendor/bin/phpunit
 
+deploy_production:
+  stage: deploy
+  script:
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
 
-
-
-
-
-
-# image: registry.gitlab.com/kc3416696ncku/unit-testing:master
-# services:
-#   - mysql:5.7
-
-# variables:
-#   MYSQL_DATABASE: homestead
-#   MYSQL_ROOT_PASSWORD: secret
-#   DB_HOST: mysql
-#   DB_USERNAME: root
-
-# stages:
-#   - test
-#   - deploy
-
-# unit_test:
-#   stage: test
-#   image: chilio/laravel-dusk-ci:stable
-#   script:
-#     - cp .env.example .env
-#     - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
-#     # - cp phpunit.xml.ci phpunit.xml # if you are using custom config for your phpunit tests in CI
-#     - configure-laravel --headless
-#     - start-nginx-ci-project
-#     - ./vendor/bin/phpunit -v --coverage-text --colors --stderr
-#     # - phpunit -v --coverage-text --colors --stderr # if you want to use preinstalled phpunit
-#     - php artisan dusk --colors --debug
-#     # - cp .env.example .env
-#     # - composer install --no-interaction --prefer-dist --no-suggest
-#     # - php artisan key:generate
-#     # - php artisan migrate
-#     # - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
-
-#     # - php artisan serve &
-
-#     # - php artisan dusk
-#     # - vendor/bin/phpunit
-
-# deploy_production:
-#   stage: deploy
-#   script:
-#     - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
-#     - eval $(ssh-agent -s)
-#     - ssh-add <(echo "$SSH_PRIVATE_KEY")
-#     - mkdir -p ~/.ssh
-#     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-
-#     - ~/.composer/vendor/bin/envoy run deploy --commit="$CI_COMMIT_SHA"
-#   environment:
-#     name: production
-#     url: http://192.168.1.1
-#   when: manual
-#   only:
-#     - master
+    - ~/.composer/vendor/bin/envoy run deploy --commit="$CI_COMMIT_SHA"
+  environment:
+    name: production
+    url: http://192.168.1.1
+  when: manual
+  only:
+    - master
 
 
 
