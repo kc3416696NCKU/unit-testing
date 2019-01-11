@@ -28,8 +28,10 @@ test1:
     - cp .env.testing .env
     - composer install --no-interaction --prefer-dist --no-suggest
     - php artisan key:generate
+    - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
+    - php artisan serve &
   script:
-    - php artisan dusk
+    - php artisan duskphp
   cache:
     untracked: true
   artifacts:
