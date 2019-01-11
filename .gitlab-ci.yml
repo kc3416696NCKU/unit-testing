@@ -70,7 +70,7 @@
 
 
 
-image: registry.gitlab.com/kc3416696ncku/unit-testing:master
+# image: registry.gitlab.com/kc3416696ncku/unit-testing:master
 services:
   - mysql:5.7
 
@@ -90,37 +90,13 @@ unit_test:
   script:
     - cp .env.testing .env
     - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
-    - configure-laravel
+    # - configure-laravel
     - start-nginx-ci-project
     - ./vendor/bin/phpunit -v --coverage-text --colors --stderr
 
     - php artisan serve &
     - php artisan dusk --colors --debug
-    # - cp .env.example .env
-    # - composer install --no-interaction --prefer-dist --no-suggest
-    # - php artisan key:generate
-    # - php artisan migrate
-    # - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
 
-    # - php artisan serve &
-
-    # - php artisan dusk
-    # - vendor/bin/phpunit
-
-# deploy_production:
-#   stage: deploy
-#   script:
-    # - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
-    # - eval $(ssh-agent -s)
-    # - ssh-add <(echo "$SSH_PRIVATE_KEY")
-    # - mkdir -p ~/.ssh
-    # - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-
-    # - ~/.composer/vendor/bin/envoy run deploy --commit="$CI_COMMIT_SHA"
-  # environment:
-  #   name: production
-  #   url: http://192.168.1.1
-  # when: manual
   only:
     - master
 
